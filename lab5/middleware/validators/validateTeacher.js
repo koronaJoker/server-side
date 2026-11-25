@@ -38,11 +38,20 @@ const validateTeacher = [
         const errors = validationResult(req)
 
         if (!errors.isEmpty()) {
-            return res.status(400).render("teachers/create", {
-                errors: errors.array().map(error => error.msg),
-                teacher: req.body
+        const messages = errors.array().map(error => error.msg)
+
+        if (req.params.id) {
+            return res.status(400).render("teachers/edit", {
+                errors: messages,
+                teacher: { ...req.body, id: req.params.id }
             })
         }
+
+        return res.status(400).render("teachers/create", {
+            errors: messages,
+            teacher: req.body
+        })
+    }
 
         next()
     }

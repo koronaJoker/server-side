@@ -17,7 +17,6 @@ header .logo, .logout {
     @apply bg-rose-500 cursor-pointer py-5 px-6 text-white rounded-sm leading-0 hover:bg-rose-700 font-black justify-self-start;
 }
 
-
 input, select, button, textarea, .add-btn, .edit-btn, .accept-btn {
     @apply px-6 py-2 cursor-pointer rounded-sm transition duration-300;
 }

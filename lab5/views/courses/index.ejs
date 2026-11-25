@@ -11,7 +11,7 @@
 
     <%- include("../partials/header", {active : "courses"}) %>
    
-        <form action="/courses" method="GET" class="w-full flex gap-2 px-16">
+        <form action="/courses" method="GET" class="w-full flex gap-2 px-16 my-8">
             
             <input
                 class="w-full"
@@ -51,6 +51,18 @@
             </button>
         </form>
 
+
+        <div id="notifications" class="w-1/2 mx-auto my-8 py-4">
+            <h3 class="font-black text-xl text-center text-gray-800">
+                Уведомления
+            </h3>
+
+        <div id="notification-list" class="my-6 flex flex-col gap-4">
+            <p class="text-center text-gray-400">
+                Уведомлений пока нет
+            </p>
+        </div>
+</div>
 
     <% if (courses.length > 0) { %>
         <%- include("../partials/coursesTable", {courses}) %>

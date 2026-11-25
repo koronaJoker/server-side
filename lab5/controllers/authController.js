@@ -69,7 +69,8 @@ export async function login(req,res,next) {
 
             req.session.userId = user.id
             req.session.role = user.role
-
+            req.session.email = user.email
+            
             user.lastLogin = new Date()
             await user.save()
 

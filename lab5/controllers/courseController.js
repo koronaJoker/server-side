@@ -1,6 +1,6 @@
 import { Op } from "sequelize";
 import { Course, Teacher } from "../models/index.js";
-
+import { logAdminAction } from "../utils/adminLogger.js";
 
 function isValidId(id) {
     return /^\d+$/.test(String(id)) && Number(id) > 0;
@@ -16,8 +16,8 @@ export async function index (req,res, next) {
             where.semester = semester
         }
 
-        if(teacherId && teacherId !== 'all') {
-            where.teacherId = teacherId
+        if (teacherId && teacherId !== "all" && isValidId(teacherId)) {
+            where.teacherId = Number(teacherId)
         }
 
         if (search) {
@@ -82,7 +82,7 @@ export async function store (req,res, next) {
             })
         }
 
-        await Course.create({
+        const course = await Course.create({
             title,
             credits,
             semester,
@@ -90,6 +90,15 @@ export async function store (req,res, next) {
             teacherId
         })
 
+        const io = req.app.get("io")
+
+        io.emit("courseCreated", {
+            courseName: course.title,
+            teacherName: teacher.name,
+            createdAt: new Date().toLocaleString("ru-RU")
+        })
+
+        logAdminAction(req.session.email, "ADD COURSE", "Course", course.id);
         res.redirect("/courses")
     }
     catch (error) {
@@ -176,7 +185,7 @@ export async function update(req,res,next) {
         const {title, credits, semester, description, teacherId} = req.body
 
         await course.update({title, credits, semester, description, teacherId})
-
+        logAdminAction(req.session.email, "EDIT COURSE", "Course", course.id);
         res.redirect("/courses")
     }
 
@@ -185,7 +194,7 @@ export async function update(req,res,next) {
     }
 }
 
-export async function destroy(req,res) {
+export async function destroy(req,res,next ) {
     try {
         const {id} = req.params
 
@@ -199,6 +208,7 @@ export async function destroy(req,res) {
             return res.status(404).send("Course not found")
         }
 
+        logAdminAction(req.session.email, "DELETE COURSE", "Course", id);
         res.redirect("/courses")
     }
     catch (error) {

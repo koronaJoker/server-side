@@ -1,4 +1,5 @@
 import {Teacher, Course} from "../models/index.js"
+import { logAdminAction } from "../utils/adminLogger.js"
 
 function isValidId(id) {
     return /^\d+$/.test(String(id)) && Number(id) > 0;
@@ -33,7 +34,9 @@ export async function store(req, res, next) {
     try {
         const {name,email,department,academicDegree} = req.body
 
-        await Teacher.create({name,email,department,academicDegree})
+        const teacher = await Teacher.create({name,email,department,academicDegree})
+
+        logAdminAction(req.session.email, "CREATE TEACHER", "Teacher", teacher.id);
 
         res.redirect("/teachers")
     }
@@ -107,6 +110,8 @@ export async function update(req,res,next) {
 
         await teacher.update({name, email, department, academicDegree})
 
+        logAdminAction(req.session.email, "UPDATE TEACHER", "Teacher", id);
+
         res.redirect("/teachers")
     }
 
@@ -137,7 +142,9 @@ export async function destroy(req,res, next) {
         }
 
         await teacher.destroy()
-        
+
+        logAdminAction(req.session.email, "DELETE TEACHER", "Teacher", id);
+
         res.redirect("/teachers")
     }
     catch (error) {
