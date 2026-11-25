@@ -11,6 +11,7 @@ import notFound from "./middleware/notFound.js"
 import connect from "./config/connect.js";
 import sequelize from "./config/database.js";
 import "./models/index.js";
+import session from "express-session"
 
 
 const app = express()
@@ -23,6 +24,27 @@ app.use(logger)
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+
+
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60
+    }
+}))
+
+
+app.use((req,res,next) => {
+    res.locals.user = req.session.userId ? {
+        id: req.session.userId,
+        role: req.session.role
+    }
+    : null
+
+    next()
+})
 
 app.get('/', redirectToCourses)
 

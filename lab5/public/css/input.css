@@ -8,16 +8,13 @@ body {
     align-items: center;
 }
 
-header {
-    @apply h-25 flex justify-between py-8 px-2 gap-4;
-}
 
 h1 {
     @apply font-black transition-colors duration-300;
 }
 
-header h1 {
-    @apply bg-rose-500 cursor-pointer py-5 px-6 text-white rounded-sm leading-0 hover:bg-rose-700;
+header .logo, .logout {
+    @apply bg-rose-500 cursor-pointer py-5 px-6 text-white rounded-sm leading-0 hover:bg-rose-700 font-black justify-self-start;
 }
 
 
@@ -166,8 +163,8 @@ footer {
     @apply px-8 w-full mt-8 font-black text-xl hover:scale-100 hover:bg-black hover:text-white;
 }
 
-header a {
-    @apply transition hover:text-rose-300;
+header nav a {
+    @apply transition hover:text-rose-600;
 }
 
 a.active {

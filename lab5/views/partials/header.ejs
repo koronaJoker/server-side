@@ -1,89 +1,71 @@
-
-<header class="flex items-center justify-between px-8 py-4 flex-wrap gap-4">
+<header class="bg-gray-50 grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] items-center w-full min-h-24 px-6 lg:px-16 py-4 gap-4 mb-0">
 
     <!-- Логотип -->
-    <h1
-        onclick="window.location.href='/courses'"
-        class="text-2xl font-bold cursor-pointer hover:text-rose-500 transition"
+    <a
+        href="/courses"
+        class="logo"
     >
         USM.md
-    </h1>
+    </a>
 
     <!-- Навигация -->
-    <nav class="flex items-center gap-4">
+    <nav class="flex flex-wrap items-center justify-center gap-4 justify-self-center">
+        
         <a
             href="/courses"
-            class="<%= active === 'courses' ? 'active' : '' %>"
+            class="whitespace-nowrap <%= active === 'courses' ? 'active' : '' %>"
         >
             Курсы
         </a>
 
         <a
             href="/teachers"
-            class="<%= active === 'teachers' ? 'active' : '' %>"
+            class="whitespace-nowrap <%= active === 'teachers' ? 'active' : '' %>"
         >
             Преподы
         </a>
-
-         <a
+        <% if (user?.role) { %>
+        <a
             href="/statistics"
-            class="<%= active === 'statistics' ? 'active' : '' %> "
+            class="whitespace-nowrap <%= active === 'statistics' ? 'active' : '' %>"
         >
             Статистика
         </a>
+         
+        <a
+            href="/profile"
+            class="whitespace-nowrap <%= active === 'profile' ? 'active' : '' %>"
+        >
+            Профиль
+        </a>
+        <% } %>
     </nav>
 
-    <!-- Поиск и фильтры -->
-    <% if (active === 'courses') { %>
-        <form action="/courses" method="GET" class="flex items-center gap-2">
-            <input
-                type="text"
-                name="search"
-                id="search"
-                placeholder="🔍 Найти курс"
-                value="<%= typeof search !== 'undefined' ? search : '' %>"
+    <!-- Действия -->
+    <div class="flex flex-wrap items-center justify-center md:justify-end gap-3 justify-self-center md:justify-self-end">
+        <% if (user?.role === 'admin') { %>
+            <a href="/courses/new" class="add-btn whitespace-nowrap">
+                Добавить курс
+            </a>
+
+            <a href="/teachers/new" class="add-btn whitespace-nowrap">
+                Добавить учителя
+            </a>
+        <% } %>
+
+        <% if (user?.role) { %>
+        <form action="/logout" method="POST">
+            <button
+                type="submit"
+                class="logout bg-rose-500 whitespace-nowrap <%= active === 'profile' ? 'active' : '' %>"
             >
-
-            <select name="semester" id="semester">
-                <option value="all">Все семестры</option>
-                <% for (let i = 1; i <= 8; i++) { %>
-                    <option
-                        value="<%= i %>"
-                        <%= typeof semester !== 'undefined' && String(semester) === String(i) ? 'selected' : '' %>
-                    >
-                        <%= ['I','II','III','IV','V','VI','VII','VIII'][i - 1] %> семестр
-                    </option>
-                <% } %>
-            </select>
-
-            <select class="text-justify" name="teacherId" id="teacherId">
-                <option value="all">Все учителя</option>
-                <% teachers.forEach(teacher => { %>
-                    <option
-                        value="<%= teacher.id %>"
-                        <%= String(teacherId || 'all') === String(teacher.id) ? "selected" : '' %>
-                    >
-                    <%= teacher.name %>
-                    </option>
-                <% }) %>
-            </select>
-
-            <button type="submit" class="accept-btn">
-                Применить
+                Выйти
             </button>
         </form>
-    <% } %>
-
-    <!-- Добавление -->
-
-    <div class="flex items-center gap-3">
-        <a href="/courses/new" class="add-btn">
-            Добавить курс
-        </a>
-
-        <a href="/teachers/new" class="add-btn">
-            Добавить учителя
-        </a>
+        <% } else { %>
+            <a href="/register" class="add-btn">Регистрация</a>
+            <a href="/login" class="logout">Войти</a>
+        <% }%>
     </div>
-    
+
 </header>

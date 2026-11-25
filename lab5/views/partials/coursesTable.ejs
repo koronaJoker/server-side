@@ -8,7 +8,9 @@
             <th>Credits</th>
             <th>Semester</th>
             <th>Описание</th>
-            <th colspan="2">Действия</th>
+            <%if (user?.role === 'admin') { %>
+                <th colspan="2">Действия</th>
+            <% } %>
         </tr>
     </thead>
 
@@ -20,7 +22,7 @@
                     <td><%= course.credits %></td>
                     <td><%= course.semester %></td>
                     <td class="desc"><%= course.description %></td>
-                    
+                    <%if (user?.role === 'admin') { %>
                     <td class = "edit">
                         <a href="/courses/<%= course.id %>/edit">
                             <button>Изменить</button>
@@ -33,6 +35,8 @@
                         <button type = "submit" class="delete-btn">Удалить</button>
                     </form>
                     </td>
+
+                    <% } %>
                 </tr>
         <% }) %>
     </tbody>

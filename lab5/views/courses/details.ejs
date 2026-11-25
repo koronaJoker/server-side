@@ -24,10 +24,11 @@
                         <p>Semester: <%= course.semester %></p>
                         <p class="text-gray-400"><%= course.description %></p>
                     </div>
-
+                <% if (user?.role === 'admin') { %>
                     <a class="edit-btn" href="/courses/<%= course.id %>/edit">
                         Редактировать
                     </a>
+                <% } %>
         </div>
    
         <%- include("../partials/footer") %>

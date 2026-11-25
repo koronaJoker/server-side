@@ -13,7 +13,7 @@
 <body>
 
         <div class="container ">
-            <h1>Просмотр Преподавателя <%= teacher.id %></h1>
+            <h1>Детали Преподавателя</h1>
             
                     <div class = "card">
                         <h2><%= teacher.name %></h2>
@@ -31,10 +31,11 @@
 
                         <p class="text-gray-600">Количество курсов: <%= teacher.Courses.length %></p>
                     </div>
-
+                    <% if (user?.role === 'admin') { %>
                     <a class="edit-btn" href="/teachers/<%= teacher.id %>/edit">
                         Редактировать
                     </a>
+                    <% } %>
         </div>
    
         <%- include("../partials/footer") %>

@@ -1,4 +1,4 @@
-<header class="w-1/2 flex items-center justify-between px-8 py-4 flex-wrap gap-4">
+<header class="w-full flex items-center justify-between px-8 py-4 flex-wrap gap-4 bg-gray-50 h-24">
     <!-- Логотип -->
     <h1
         onclick="window.location.href='/courses'"
@@ -8,6 +8,7 @@
     </h1>
 
     <nav class="flex items-center gap-8">
+        <a href="/courses">Главная</a>
         <a href="/register" class="<%= active === 'register' ? 'active' : '' %>">Регистрация</a>
          <a href="/login" class="<%= active === 'login' ? 'active' : '' %>">Войти</a>
     </nav>

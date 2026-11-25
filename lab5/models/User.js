@@ -2,7 +2,7 @@ import {DataTypes} from "sequelize"
 import sequelize from "../config/database.js"
 
 
-const user = sequelize.define('User', {
+const User = sequelize.define('User', {
     id : {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -10,23 +10,36 @@ const user = sequelize.define('User', {
     },
 
     username: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(100),
         allowNull: false,
         unique: true
     },
 
     email: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(255),
         allowNull: false,
         unique: true
     },
 
-    passwordHash: {
+    password: {
         type: DataTypes.STRING,
         allowNull: false
-    }
+    },
+    role : {
+        type: DataTypes.ENUM("user", "admin"),
+        allowNull: false,
+        defaultValue: "user"
+    },
+    lastLogin: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null
+        }
+    }, {
+        tableName: "users",
+        timestamps: true
 
 })
 
 
-export default user
+export default User
