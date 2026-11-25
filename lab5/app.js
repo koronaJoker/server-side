@@ -1,11 +1,13 @@
 import express from "express"
 import courseRoutes from "./routes/courseRoutes.js"
 import teacherRoutes from "./routes/teacherRoutes.js"
+import authRoutes from "./routes/authRoutes.js"
+import statisticsRoutes from './routes/statisticsRoutes.js'
 import logger from "./middleware/logger.js"
 
 import { redirectToCourses } from "./controllers/homeController.js";
-import { notFound, errorHandler } from "./middleware/errorHandler.js";
-
+import  errorHandler from "./middleware/errorHandler.js";
+import notFound from "./middleware/notFound.js"
 import connect from "./config/connect.js";
 import sequelize from "./config/database.js";
 import "./models/index.js";
@@ -26,6 +28,8 @@ app.get('/', redirectToCourses)
 
 app.use('/courses', courseRoutes)
 app.use('/teachers', teacherRoutes)
+app.use('/statistics', statisticsRoutes)
+app.use(authRoutes)
 
 app.use(notFound);
 app.use(errorHandler);

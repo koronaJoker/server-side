@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body>
+    
+<%- include('../partials/header', {active: "statistics"}) %>
+
+<div class="grid grid-cols-2 gap-8">
+    <div class="card col-span-2 justify-center items-center">
+        <h1 class="text-4xl">Статистика и факты</h1>
+    </div>
+    <div class="card col-span-1">
+        <h2>Общая Статистика</h2>
+        <p class="text-gray-700">Общее Количество преподавателей: <%= teachersCount %></p>
+        <p class="text-gray-700">Общее Количество курсов: <%= coursesCount %></p>
+        <p class="text-gray-700">количество курсов в каждом семестре: <%= coursesBySemester.length %></p>
+    </div>
+
+    <div class="card col-span-1">
+        
+        <h2 class="font-bold"> Курсов у каждого препода:</h2>
+        <% teacherStatistics.forEach(teacher => { %>
+            <p  style = "text-align:center" class="text-gray-700 text-center">
+            <%= teacher.name %> — <%= teacher.courseCount %> курсов
+            </p>
+        <% }) %>
+    </div>
+
+        <div class="card col-span-2">
+        <h2>Лучший преподаватель:</h2>
+        <h3 class="font-bold text-3xl mx-auto"><%= topTeacher.name %></h3>
+        <h2 class="mx-auto">Ведёт <%= topTeacher.courseCount %> курса</h2>
+    </div>
+</div>
+<%- include('../partials/footer') %>
+
+</body>
+</html>

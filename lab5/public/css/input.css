@@ -9,32 +9,36 @@ body {
 }
 
 header {
-    @apply h-25 flex justify-between py-8 px-12 overflow-hidden gap-4
+    @apply h-25 flex justify-between py-8 px-2 gap-4;
 }
 
 h1 {
-    @apply font-black text-xl transition-colors duration-300;
+    @apply font-black transition-colors duration-300;
 }
 
 header h1 {
-    @apply bg-rose-500 cursor-pointer py-5 px-6 text-white rounded-sm leading-0 hover:bg-rose-700
+    @apply bg-rose-500 cursor-pointer py-5 px-6 text-white rounded-sm leading-0 hover:bg-rose-700;
 }
 
 
-input, select, button, textarea, .add-btn {
-    @apply px-4 py-2 cursor-pointer rounded-sm transition duration-300
+input, select, button, textarea, .add-btn, .edit-btn, .accept-btn {
+    @apply px-6 py-2 cursor-pointer rounded-sm transition duration-300;
+}
+
+.accept-btn {
+    @apply bg-green-300 font-black text-green-800 hover:bg-green-500 hover:scale-100;
 }
 
 button {
-    @apply  bg-gray-300 font-bold  hover:bg-gray-400    hover:scale-105
+    @apply  bg-gray-300 font-bold  hover:bg-gray-400    hover:scale-105;
 }
 
 select {
-    @apply bg-gray-200  hover:bg-gray-300
+    @apply bg-gray-200  hover:bg-gray-300;
 }
 
 input {
-    @apply outline-none bg-gray-100 hover:bg-gray-300
+    @apply outline-none bg-gray-100 hover:bg-gray-300;
 }
 
 .container {
@@ -42,25 +46,34 @@ input {
 }
 
 .container h1 {
-    @apply p-4 text-3xl font-bold text-gray-800;
+    @apply p-4 text-2xl font-bold text-gray-800;
 }
 
-.card {
+.container .card {
     @apply w-100 p-8 bg-white border border-gray-200  shadow-lg
-           transition duration-300 hover:shadow-xl;
+     transition duration-300 hover:shadow-xl flex flex-col gap-2;
+}
+.grid .card {
+    @apply p-8 bg-white border border-gray-200  shadow-lg
+     transition duration-300 hover:shadow-xl flex flex-col gap-2  justify-center items-center;
+
 }
 
 .card h2 {
-    @apply text-2xl font-bold text-gray-800 mb-4;
+    @apply text-xl font-bold text-gray-800 mb-4 text-center;
 }
 
 .card * {
     @apply text-justify;
 }
 
+.card p {
+    @apply font-semibold;
+}
+
 
 .card input {
-    @apply w-full
+    @apply w-full;
 }
 
 table {
@@ -83,7 +96,7 @@ th {
 
 
 tbody,thead {
-    @apply w-full
+    @apply w-full;
 }
 
 tbody tr {
@@ -97,10 +110,12 @@ td {
 
 
 .edit button, .edit-btn{
-    @apply hover:bg-indigo-600 transition-colors duration-300 hover:text-white bg-indigo-200;
+    @apply hover:bg-indigo-600 transition-colors duration-300 hover:text-white bg-indigo-200  font-bold;
 }
+
+
 .edit-btn {
-    @apply my-6 text-center mx-auto block w-full 
+    @apply my-6 text-center mx-auto block w-full; 
 }
 
 .delete-btn {
@@ -112,17 +127,49 @@ td {
 }
 
 .add-btn {
-    @apply text-center bg-indigo-600 text-white font-black hover:bg-indigo-800
+    @apply text-center bg-indigo-600 text-white font-black hover:bg-indigo-800;
 }
 
 footer {
-    @apply bg-gray-600 flex justify-center items-center text-zinc-200 h-10 w-full;
+    @apply mt-4 bg-gray-600 flex justify-center items-center text-zinc-200 h-10 w-full;
 }
 
 .errors {
-    @apply text-center text-rose-500 p-4
+    @apply text-center text-rose-500 p-4;
 }
 
 .errors div span {
-    @apply font-extrabold
+    @apply font-extrabold;
+}
+
+.form {
+    @apply  border-gray-300 shadow-xl w-1/2 mx-auto flex flex-col gap-4 items-center p-8;
+}
+
+.form h1 {
+    @apply text-3xl;
+}
+
+.form input {
+    @apply w-full focus:bg-gray-400 focus:text-white;
+}
+
+.form .form-group {
+    @apply flex flex-col gap-4 w-full;
+}
+
+.form label {
+    @apply font-bold px-4 text-xl;
+}
+
+.form button {
+    @apply px-8 w-full mt-8 font-black text-xl hover:scale-100 hover:bg-black hover:text-white;
+}
+
+header a {
+    @apply transition hover:text-rose-300;
+}
+
+a.active {
+    @apply text-rose-500 font-black border-b-4 border-rose-500;
 }

@@ -14,7 +14,7 @@ export async function index(req,res,next) {
                 }]
             }
         )
-        res.render("teachers/index", {teachers})
+        res.render("teachers/index", {teachers, error: req.query.error})
     }
 
     catch (error) {
@@ -23,7 +23,10 @@ export async function index(req,res,next) {
 }
 
 export async function create(req,res) {
-    res.render("teachers/create")
+    res.render("teachers/create", {
+        errors: [],
+        teacher: {}
+    })
 }
 
 export async function store(req, res, next) {
@@ -43,7 +46,10 @@ export async function store(req, res, next) {
 export async function show(req,res,next) {
     try {
         const teacher = await Teacher.findByPk(req.params.id, {
-            include: Course
+            include: [{
+                model: Course,
+                as: "Courses"
+            }]
         })
 
         if (!teacher) {
@@ -64,15 +70,18 @@ export async function edit(req,res,next) {
         const {id} = req.params
 
         if (!isValidId(id)) {
-            res.status(404).send("Invalid teacher Id")
+            return res.status(404).send("Invalid teacher Id")
         }
 
         const teacher = await Teacher.findByPk(id)
         if (!teacher) {
-            res.status(404).send("Teacher not found")
+            return res.status(404).send("Teacher not found")
         }
 
-        res.render("teachers/edit", {teacher})
+        res.render("teachers/edit", {
+            teacher,
+            errors: []
+        })
     }
     catch(error) {
         next(error)
@@ -98,7 +107,7 @@ export async function update(req,res,next) {
 
         await teacher.update({name, email, department, academicDegree})
 
-        res.reditect("/teachers")
+        res.redirect("/teachers")
     }
 
     catch (error) {
@@ -106,20 +115,29 @@ export async function update(req,res,next) {
     }
 }
 
-export async function destroy(req,res) {
+export async function destroy(req,res, next) {
     try {
         const {id} = req.params
 
         if (!isValidId(id)) {
             return res.status(404).send("Invalid ID")
         }
+        const teacher = await Teacher.findByPk(id);
 
-        const deletedCount = await Teacher.destroy({where: {id}})
-
-        if (deletedCount === 0) {
-            return res.status(404).send("teacher not found")
+        if (!teacher) {
+            return res.status(400).send("Teacher not found")
         }
 
+        const coursesCount = await Course.count({
+            where: {teacherId: id}
+        })
+
+        if (coursesCount > 0) {
+             return res.status(400).redirect("/teachers?error=has-courses");
+        }
+
+        await teacher.destroy()
+        
         res.redirect("/teachers")
     }
     catch (error) {

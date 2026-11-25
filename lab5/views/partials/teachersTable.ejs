@@ -26,30 +26,14 @@
                     </td>
                     <td>
                         
-                    <button onclick = "deleteCourse(event, <%= teacher.id %>)" type="submit" class="delete-btn">Удалить</button>
+                    <form action = "/teachers/<%= teacher.id %>/delete" method = "POST"
+                        onclick="event.stopPropagation()"
+                        onsubmit="return confirm('Хотите удалить преподавателя?')">
+                        <button type = "submit" class="delete-btn">Удалить</button>
+                    </form>
 
                     </td>
                 </tr>
         <% }) %>
     </tbody>
 </table>
-
-<script>
-    async function deleteTeacher(event, id) {
-        event.stopPropagation()
-        const ans = confirm ("Хотите удалить курс?")
-        if (!ans) {
-            return
-        }
-        
-        const response= await fetch(`/teachers/${id}`, {
-            method: "DELETE"
-        })
-        if (response.ok) {
-            window.location.href = '/teachers'
-        }
-        else {
-            alert("Не удалось удалить преподавателя")
-        }
-    }
-</script>

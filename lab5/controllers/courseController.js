@@ -8,12 +8,16 @@ function isValidId(id) {
 
 export async function index (req,res, next) {
     try {
-        const {semester, search} = req.query
+        const {semester, search, teacherId} = req.query
 
         const where = {}
 
-        if (semester && semester != "all") {
+        if (semester && semester !== "all") {
             where.semester = semester
+        }
+
+        if(teacherId && teacherId !== 'all') {
+            where.teacherId = teacherId
         }
 
         if (search) {
@@ -24,7 +28,13 @@ export async function index (req,res, next) {
         }
 
         const courses = await Course.findAll({where,  include: [{ model: Teacher, as: "Teacher" }]});
-        res.render("courses/index", {courses})
+
+         const teachers = await Teacher.findAll({
+            attributes: ["id", "name"],
+            order: [["name", "ASC"]]
+        })
+
+        res.render("courses/index", {courses, teachers, search, semester, teacherId})
     }
 
     catch (error) {
@@ -32,13 +42,45 @@ export async function index (req,res, next) {
     }
 }
 
-export function create(req, res) {
-    res.render("courses/create")
+export async function create(req, res, next) {
+    try {
+        const teachers = await Teacher.findAll({
+            attributes: ["id", "name"],
+            order: [["name", "ASC"]]
+        })
+
+        res.render("courses/create", {
+        errors: [],
+        course: {},
+        teachers,
+        teacherId: 'all'
+        })
+    }
+
+
+    catch (error) {
+        next(error)
+    }
+
 }
 
 export async function store (req,res, next) {
     try {
         const {title, credits, semester, description, teacherId} = req.body
+
+        const teacher = await Teacher.findByPk(teacherId)
+
+        if (!teacher) {
+            return res.status(400).render("courses/create", {
+                errors: ["Преподаватель не найден"],
+                course: req.body,
+                teachers: await Teacher.findAll({
+                    attributes: ["id", "name"],
+                    order: [["name", "ASC"]],
+                teacherId: 'all'
+                })
+            })
+        }
 
         await Course.create({
             title,
@@ -62,13 +104,24 @@ export async function show (req,res,next) {
             return res.status(404).send("Invalid course ID")
         }
 
-        const course =  await Course.findByPk(id)
+        const course = await Course.findByPk(id, {
+            include: [{
+                model: Teacher,
+                as: "Teacher",
+                attributes: ["id", "name"]
+            }]
+        })
 
         if (!course) {
             return res.status(404).send("Course not found")
         }
 
-        res.render("courses/details", {course})
+        const teachers = await Teacher.findAll({
+            attributes: ["id", "name"],
+            order: [["name", "ASC"]]
+        })
+
+        res.render("courses/details", {course, teacherId: "all", teachers})
     }
 
     catch (error) {
@@ -90,7 +143,15 @@ export async function edit (req,res, next) {
             return res.status(404).send("Course not found")
         }
 
-        res.render("courses/edit", {course})
+        const teachers = await Teacher.findAll(
+            {
+                attributes: ["id", "name"],
+                order: [["name", "ASC"]],
+
+            }
+        );
+
+        res.render("courses/edit", {course, errors: [], teachers, teacherId: "all"})
     }
 
     catch (error) {

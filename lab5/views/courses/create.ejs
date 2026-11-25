@@ -1,5 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,51 +9,77 @@
     <link rel="stylesheet" href="/css/output.css">
 </head>
 <body>
-    
-<%- include("../partials/header") %>
+
+    <%- include("../partials/header", {active : "courses"}) %>
+
     <div class="container">
-        <% if (errors && errors.length > 0) {%>
+
+        <% if (errors && errors.length > 0) { %>
             <div class="errors">
                 <div>
                     <span>Пожалуйста, исправьте ошибки</span>
                 </div>
 
                 <ul>
-                    <%errors.forEach( error =>{  %>
+                    <% errors.forEach(error => { %>
                         <li><%= error %></li>
                     <% }) %>
                 </ul>
             </div>
-
-
         <% } %>
 
         <h1>Добавить новый курс</h1>
-                        <form action="" method="POST">
-                    <div class = "card">
-                        <p>имя дисциплины:</p>
-                        <input type="text" value="<%= course?.title || '' %>"  name="title" placeholder="discipline">
-    
-                        <p>Преподаватель: </p>
-                         <input value="<%= course?.teacher || '' %>" type="text" name="teacher" placeholder="John Snow">
-    
-                        <p>Credits:</p>
-                        <input value="<%= course?.credits || '' %>" type="number" name="credits" placeholder="5">
-    
-                        <p>Semester: </p>
-                        <select name="semester" id="semester" class="w-full text-center">
-                            <option <%= course.semester == 1 ? "selected" : "" %> value="1">I</option>
-                             <option <%= course.semester == 2 ? "selected" : "" %> value="2">II</option>
-                        </select>
-    
-                        <p class="desc">Description:</p>
-                        <textarea name="description" placeholder="blablabla..."><%= course?.description || '' %></textarea>
-                    </div>
 
-                    <button type = "submit" class="add-btn w-full mt-4">Добавить</button>
-                </form>
+        <form action="/courses" method="POST">
+            <div class="card">
+
+                <p>Имя дисциплины:</p>
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Discipline"
+                >
+
+                <p>Преподаватель:</p>
+                <select name="teacherId" id="teacherId">
+                    <option value="" disabled selected>Выберите препода</option>
+
+                    <% teachers.forEach(teacher => { %>
+                        <option value="<%= teacher.id %>">
+                            <%= teacher.name %>
+                        </option>
+                    <% })%>
+                </select>
+
+                <p>Credits:</p>
+                <input
+                    type="number"
+                    name="credits"
+                    placeholder="5"
+                >
+
+                <p>Semester:</p>
+                <select name="semester" id="semester" class="w-full text-center">
+                    <option value="1">I</option>
+                    <option value="2">II</option>
+                </select>
+
+                <p class="desc">Description:</p>
+                <textarea
+                    name="description"
+                    placeholder="blablabla..."
+                ></textarea>
+
+            </div>
+
+            <button type="submit" class="add-btn w-full mt-4">
+                Добавить
+            </button>
+        </form>
+
     </div>
 
     <%- include("../partials/footer") %>
+
 </body>
 </html>

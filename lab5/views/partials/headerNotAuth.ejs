@@ -1,0 +1,15 @@
+<header class="w-1/2 flex items-center justify-between px-8 py-4 flex-wrap gap-4">
+    <!-- Логотип -->
+    <h1
+        onclick="window.location.href='/courses'"
+        class="text-2xl font-bold cursor-pointer hover:text-rose-500 transition"
+    >
+        USM.md
+    </h1>
+
+    <nav class="flex items-center gap-8">
+        <a href="/register" class="<%= active === 'register' ? 'active' : '' %>">Регистрация</a>
+         <a href="/login" class="<%= active === 'login' ? 'active' : '' %>">Войти</a>
+    </nav>
+
+</header>

@@ -8,33 +8,27 @@
 </head>
 <body>
 
-<div class="flex justify-between w-full">
-    
-    <%- include("../partials/header") %>
-    
-    <div class="py-8 px-12 flex gap-2">
-        <form action="" method = "GET">
-                <input type="text" name = "search" id = "search" placeholder="🔍Найти курс">
-                <select name="semester" id="semester">
-                    <option value="all">Все семестры</option>
-                    <option value="1">I семестр</option>
-                    <option value="2">II семестр</option>
-                    <option value="3">III семестр</option>
-                    <option value="4">IV семестр</option>
-                    <option value="5">V семестр</option>
-                    <option value="6">VI семестр</option>
-                    <option value="7">VII семестр</option>
-                    <option value="8">VIII семестр</option>
-                </select>
-                <button type="submit">применить</button>
-            </form>
-            
-    </div>
-        
-    
-</div>
+    <%- include("../partials/header", {active : "teachers"}) %>
    
+        <% if (error === "has-courses") { %>
+        <div class="bg-red-100 text-red-700 p-4 rounded-lg mb-4">
+            Нельзя удалить преподавателя, у которого есть курсы!
+        </div>
+    <% } %>
+
+        <% if (teachers.length > 0) { %>
         <%- include("../partials/teachersTable", {teachers}) %>
+    
+    <% } else { %> 
+         <div class="text-center py-12">
+        <h2 class="text-xl font-bold text-gray-500">
+            Преподаватели не найдены
+        </h2>
+        <p class="text-gray-400 mt-2">
+            возможно произошла ошибка
+        </p>
+    </div>
+    <%  } %>
 
     <%- include("../partials/footer") %>
 </body>

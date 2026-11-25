@@ -27,31 +27,14 @@
                         </a>
                     </td>
                     <td>
-                        
-                    <button onclick = "deleteCourse(event, <%= course.id %>)" type="submit" class="delete-btn">Удалить</button>
-
+                    <form action = "/courses/<%= course.id %>/delete" method = "POST"
+                        onclick="event.stopPropagation()"
+                        onsubmit="return confirm('Хотите удалить курс?')">
+                        <button type = "submit" class="delete-btn">Удалить</button>
+                    </form>
                     </td>
                 </tr>
         <% }) %>
     </tbody>
 </table>
 
-<script>
-    async function deleteCourse(event, id) {
-        event.stopPropagation()
-        const ans = confirm ("Хотите удалить курс?")
-        if (!ans) {
-            return
-        }
-        
-        const response= await fetch(`/courses/${id}`, {
-            method: "DELETE"
-        })
-        if (response.ok) {
-            window.location.href = '/courses'
-        }
-        else {
-            alert("Не удалось удалить курс")
-        }
-    }
-</script>
