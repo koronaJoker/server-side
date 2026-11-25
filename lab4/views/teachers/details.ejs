@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали курса</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+
+
+<%- include("../partials/header", {active : "teachers"}) %>
+
+<body>
+
+        <div class="container ">
+            <h1>Просмотр Преподавателя <%= teacher.id %></h1>
+            
+                    <div class = "card">
+                        <h2><%= teacher.name %></h2>
+                        <p>departament: <%=teacher.department %></p>
+                        <p>academicDegree: <%= teacher.academicDegree %></p>
+                        <p>email: <%= teacher.email %></p>
+                        
+                        <p class="text-gray-800">Список всех курсов: </p>
+                        <ul class="flex flex-col gap-1">
+                            <% teacher.Courses.forEach(course => { %>
+                                <li class="font-light pl-4 text-gray-400"><%= course.title %> </li>
+                            <% }) %>
+
+                        </ul>
+
+                        <p class="text-gray-600">Количество курсов: <%= teacher.Courses.length %></p>
+                    </div>
+
+                    <a class="edit-btn" href="/teachers/<%= teacher.id %>/edit">
+                        Редактировать
+                    </a>
+        </div>
+   
+        <%- include("../partials/footer") %>
+
+</body>
+</html>

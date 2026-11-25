@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Create Form</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body>
+    
+        <%- include("../partials/header", {active : "courses"}) %>
+    <div class="container">
+        <% if (errors && errors.length > 0) {%>
+            <div class="errors">
+                <div>
+                    <span>Пожалуйста, исправьте ошибки</span>
+                </div>
+
+                <ul>
+                    <%errors.forEach( error =>{  %>
+                        <li><%= error %></li>
+                    <% }) %>
+                </ul>
+            </div>
+
+
+        <% } %>
+
+        <h1>Изменить курс <% course?.id %> </h1>
+            <form action="" method="POST">
+                <div class = "card">
+                    <p>имя дисциплины:</p>
+                    <input type="text" value="<%= course?.title || '' %>"  name="title" placeholder="discipline">
+
+                        <p>Преподаватель:</p>
+                    <select name="teacherId" id="teacherId">
+                        <option value="" disabled selected>Выберите препода</option>
+
+                        <% teachers.forEach(teacher => { %>
+                            <option value="<%= teacher.id %>" <%= course.teacherId === teacher.id ? "selected" : "" %> >
+                                <%= teacher.name %>
+                            </option>
+                        <% })%>
+                    </select>
+
+                    
+                    <p>Credits:</p>
+                    <input value="<%= course?.credits || '' %>" type="number" name="credits" placeholder="5">
+
+                    <p>Semester: </p>
+                    <select name="semester" id="semester">
+                        
+                        <% for (let i = 1; i <= 8; i++) { %>
+                            <option
+                                value="<%= i %>"
+                                <%= typeof semester !== 'undefined' && String(semester) === String(i) ? 'selected' : '' %>
+                            >
+                                <%= ['I','II','III','IV','V','VI','VII','VIII'][i - 1] %> семестр
+                            </option>
+                        <% } %>
+                    </select>
+
+                    <p class="desc">Description:</p>
+                    <textarea name="description" placeholder="blablabla..."><%= course?.description || '' %></textarea>
+                </div>
+
+                <button type = "submit" class="add-btn w-full mt-4">Изменить</button>
+            </form>
+    </div>
+
+    <%- include("../partials/footer") %>
+</body>
+</html>

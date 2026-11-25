@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Каталог фильмов</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <%- include("../partials/nav") %>
+
+    <div class="movies-container">
+
+        <h1>🎬 Каталог фильмов</h1>
+
+        <form
+            class="filter-form"
+            action="/movies"
+            method="GET"
+        >
+
+            <input
+                type="text"
+                name="genre"
+                placeholder="Введите жанр"
+                value="<%= genre %>"
+            >
+
+            <button type="submit">
+                Найти
+            </button>
+
+            <a href="/movies">
+                Сбросить
+            </a>
+
+        </form>
+
+        <div class="movies-list">
+
+            <% movies.forEach(movie => { %>
+
+                <%- include("../partials/movie", { movie }) %>
+
+            <% }) %>
+
+        </div>
+
+    </div>
+
+    <script src="/script.js"></script>
+
+</body>
+
+</html>

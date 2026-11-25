@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали курса</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+
+
+<%- include("../partials/header") %>
+
+<body>
+
+        <div class="container ">
+            <h1>Просмотр курса <%= course.id %></h1>
+            
+                    <div class = "card">
+                        <h2><%= course.title %></h2>
+                        <p>Teacher: <%=course.teacher %></p>
+                        <p>Credits: <%= course.credits %></p>
+                        <p>Semester: <%= course.semester %></p>
+                        <p class="text-gray-400"><%= course.description %></p>
+                    </div>
+
+                    <button class="edit-btn"><a href="/courses/<%= course.id %>/edit">Редактировать</a></button>
+        </div>
+   
+        <%- include("../partials/footer") %>
+
+</body>
+</html>

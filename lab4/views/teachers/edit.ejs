@@ -1,0 +1,88 @@
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Редактирование преподавателя</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+
+<body>
+
+    <%- include("../partials/header", { active: "teachers" }) %>
+
+    <div class="container">
+
+        <h1>
+            Редакция преподавателя #<%= teacher.id %>
+        </h1>
+
+        <% if (errors && errors.length > 0) { %>
+            <div class="errors">
+                <div>
+                    <span>Пожалуйста, исправьте ошибки</span>
+                </div>
+
+                <ul>
+                    <% errors.forEach(error => { %>
+                        <li><%= error %></li>
+                    <% }) %>
+                </ul>
+            </div>
+        <% } %>
+
+        <form action="/teachers/<%= teacher.id %>/edit" method="POST">
+
+            <div class="card">
+
+                <p>Имя:</p>
+                <input
+                    type="text"
+                    name="teacher-name"
+                    value="<%= teacher.name || '' %>"
+                    required
+                    minlength="3"
+                    maxlength="100"
+                >
+
+                <p>Email:</p>
+                <input
+                    type="email"
+                    name="email"
+                    value="<%= teacher.email || '' %>"
+                    required
+                >
+
+                <p>Департамент:</p>
+                <input
+                    type="text"
+                    name="department"
+                    value="<%= teacher.department || '' %>"
+                    required
+                    minlength="3"
+                    maxlength="50"
+                >
+
+                <p>Академическая степень:</p>
+                <input
+                    type="text"
+                    name="academicDegree"
+                    value="<%= teacher.academicDegree || '' %>"
+                    placeholder="Например: PhD"
+                >
+
+            </div>
+
+            <button type="submit" class="edit-btn">
+                Применить изменения
+            </button>
+
+        </form>
+
+    </div>
+
+    <%- include("../partials/footer") %>
+
+</body>
+</html>

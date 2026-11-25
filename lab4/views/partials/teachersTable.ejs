@@ -1,0 +1,39 @@
+    <table>
+    <caption>Все преподаватели</caption>
+
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Почта</th>
+            <th>Департамент</th>
+            <th>Ученая степень</th>
+            <th colspan="2">Действия</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <% teachers.forEach(teacher => { %>
+                <tr onclick="window.location.href='/teachers/<%= teacher.id %>'">
+                    <td><%= teacher.name %></td>
+                    <td><%= teacher.email %></td>
+                    <td><%= teacher.department %></td>
+                    <td><%= teacher.academicDegree %></td>
+                    
+                    <td class = "edit">
+                        <a href="/teachers/<%= teacher.id %>/edit">
+                            <button>Изменить</button>
+                        </a>
+                    </td>
+                    <td>
+                        
+                    <form action = "/teachers/<%= teacher.id %>/delete" method = "POST"
+                        onclick="event.stopPropagation()"
+                        onsubmit="return confirm('Хотите удалить преподавателя?')">
+                        <button type = "submit" class="delete-btn">Удалить</button>
+                    </form>
+
+                    </td>
+                </tr>
+        <% }) %>
+    </tbody>
+</table>

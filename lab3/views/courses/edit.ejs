@@ -1,0 +1,76 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Детали курса</title> 
+    <link rel="stylesheet" href="/css/output.css"> 
+</head> 
+ 
+<body> 
+ 
+<%- include("../partials/header") %> 
+ 
+<div class="container"> 
+ 
+    <h1> 
+        <a href="/courses/<%= course.id %>" 
+           class="hover:transition duration-300 hover:text-rose-600"> 
+            Добавить курс <%= course.id %> 
+        </a> 
+    </h1> 
+ 
+    <% if (errors && errors.length > 0) { %> 
+        <div class="errors"> 
+            <div> 
+                <span>Пожалуйста, исправьте ошибки</span> 
+            </div> 
+ 
+            <ul> 
+                <% errors.forEach(error => { %> 
+                    <li><%= error %></li> 
+                <% }) %> 
+            </ul> 
+        </div> 
+    <% } %> 
+ 
+    <form action="/courses/<%= course.id %>/edit" method="POST"> 
+ 
+        <div class="card"> 
+ 
+            <p>Имя дисциплины:</p> 
+            <input type="text" name="title"  value="<%= course.title || '' %>"  > 
+ 
+            <p>Преподаватель:</p> 
+            <input type="text" name="teacher" value="<%= course.teacher || '' %>" > 
+ 
+            <p>Credits:</p> 
+            <input type="number" name="credits"  value="<%= course.credits ?? '' %>" > 
+ 
+            <p>Semester:</p> 
+            <select name="semester" id="semester" class="w-full text-center"> 
+                <option value="1" <%= Number(course.semester) === 1 ? "selected" : "" %>> 
+                    I 
+                </option> 
+                <option value="2" <%= Number(course.semester) === 2 ? "selected" : "" %>> 
+                    II 
+                </option> 
+            </select> 
+ 
+            <p class="desc">Description:</p> 
+            <textarea name="description"><%= course.description || '' %></textarea> 
+ 
+        </div> 
+ 
+        <button class="edit-btn"> 
+            Применить 
+        </button> 
+ 
+    </form> 
+ 
+</div> 
+ 
+<%- include("../partials/footer") %> 
+ 
+</body> 
+</html>

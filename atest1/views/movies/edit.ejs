@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+
+    <title>Редактирование фильма</title>
+
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+    <%- include("../partials/nav") %>
+
+    <div class="form-container">
+
+        <h1>✏️ Редактирование</h1>
+
+        <form id="edit-form">
+
+            <label>
+                Название
+
+                <input
+                    type="text"
+                    name="title"
+                    value="<%= movie.title %>"
+                    required
+                >
+            </label>
+
+            <label>
+                Жанр
+
+                <input
+                    type="text"
+                    name="genre"
+                    value="<%= movie.genre %>"
+                    required
+                >
+            </label>
+
+            <label>
+                Год
+
+                <input
+                    type="number"
+                    name="year"
+                    value="<%= movie.year %>"
+                    required
+                >
+            </label>
+
+            <label>
+                Режиссёр
+
+                <input
+                    type="text"
+                    name="director"
+                    value="<%= movie.director %>"
+                    required
+                >
+            </label>
+
+            <button type="submit">
+                Сохранить
+            </button>
+
+        </form>
+
+        <br>
+
+        <a
+            class="button"
+            href="/movies/<%= movie.id %>"
+        >
+            Отмена
+        </a>
+
+    </div>
+
+    <script>
+        const form = document.getElementById("edit-form");
+
+        form.addEventListener("submit", async (event) => {
+
+            event.preventDefault();
+
+            const formData = new FormData(form);
+
+            const data = {
+                title: formData.get("title"),
+                genre: formData.get("genre"),
+                year: formData.get("year"),
+                director: formData.get("director")
+            };
+
+            const response = await fetch(
+                "/api/movies/<%= movie.id %>",
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+
+                    body: JSON.stringify(data)
+                }
+            );
+
+            if (response.ok) {
+                window.location.href =
+                    "/movies/<%= movie.id %>";
+            } else {
+                alert("Ошибка при сохранении");
+            }
+
+        });
+    </script>
+
+</body>
+
+</html>

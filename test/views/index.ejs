@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main page</title>
+</head>
+<body>
+
+    <style>
+        body {
+            padding: 20px;
+            font-family: Bahnschrift;
+            
+        }
+
+        .container {
+            
+            width: auto;
+            border: 1px solid #ccc;
+            border-radius: 30px;
+            
+            padding: 40px 20px;
+            width: 33%;
+        }
+
+        .task {
+            
+            display: flex;
+            align-items:center;
+            border: 1px solid #ccc;
+            padding: 10px 20px;
+            gap:5px;
+            margin-bottom: 20px;
+            width: 33%;
+            border-radius: 20px;
+        }
+    </style>
+
+
+<div class="container">
+    <h1>Task manager</h1>
+
+    <h2>Add new Task</h2>
+
+
+    <form action="/tasks" method = "POST">
+
+        <input type="text" name = "name" placeholder="Enter task name:" maxlength="50" required>
+        <button type="submit">Add task</button>
+    </form>
+
+</div>
+
+    <h2>All tasks</h2>
+
+    <ul>
+        <% tasks.forEach(task => { %>
+            <li class="task">
+                <p><%= task.name %>
+
+                <% if (task.completed) { %>
+                    ✅
+                <% } else {%>
+                    ❌
+                <% } %>
+
+                <a href="/tasks/edit/<%= task.id %>">Edit</a>
+
+                    <form action="/tasks/delete/<%= task.id %>" method="POST">
+                        <button type="submit">Delete</button>
+                    </form>
+
+                </p>
+            </li>
+         <% }) %>
+    </ul>
+
+
+
+</body>
+</html>

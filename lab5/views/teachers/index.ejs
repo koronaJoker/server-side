@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Main Page</title>
+    <link rel="stylesheet" href="/css/output.css">
+</head>
+<body>
+
+<div class="flex justify-between w-full">
+    
+    <%- include("../partials/header") %>
+    
+    <div class="py-8 px-12 flex gap-2">
+        <form action="" method = "GET">
+                <input type="text" name = "search" id = "search" placeholder="🔍Найти курс">
+                <select name="semester" id="semester">
+                    <option value="all">Все семестры</option>
+                    <option value="1">I семестр</option>
+                    <option value="2">II семестр</option>
+                    <option value="3">III семестр</option>
+                    <option value="4">IV семестр</option>
+                    <option value="5">V семестр</option>
+                    <option value="6">VI семестр</option>
+                    <option value="7">VII семестр</option>
+                    <option value="8">VIII семестр</option>
+                </select>
+                <button type="submit">применить</button>
+            </form>
+            
+    </div>
+        
+    
+</div>
+   
+        <%- include("../partials/teachersTable", {teachers}) %>
+
+    <%- include("../partials/footer") %>
+</body>
+</html>

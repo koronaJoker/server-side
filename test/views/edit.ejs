@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit task</title>
+
+    <style>
+        body {
+            font-family: Bahnschrift;
+            
+        }
+
+        form {
+            position: absolute;
+            left: 50%;
+            top: 40%;
+            transform: translate(-50%,-50%);
+            display: flex;
+            flex-direction: column;
+            margin: 0px auto;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            border: 1px solid #ccc;
+            padding: 30px;
+            box-shadow: 0px 0px 10px #ccc;
+            border-radius:30px;
+        }
+        button {
+            background: #111;
+            padding: 10px 20px;
+            border: none;
+            color:#fff;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    
+
+
+    <form action="/tasks/edit/<%= task.id %>" method = "POST">
+        <h1>Edit Task</h1>
+        <label for="name">Task name:</label>
+        <input type="text" id = "name" name = "name" value = "<%= task.name %>" maxlength="50" required>
+        <br>
+        <div>
+            <label for="completed">Completed:</label>
+            <input type="checkbox" id = "completed" name = "completed" value = "true" <%= task.completed ? "checked" : "" %> >
+        </div>
+        <br>
+        <button type = "submit">Save changes</button>
+        <br>
+        <a href="/">Cancel</a>
+    </form>
+</body>
+</html>
