@@ -34,7 +34,10 @@ export async function index (req,res, next) {
             order: [["name", "ASC"]]
         })
 
-        res.render("courses/index", {courses, teachers, search, semester, teacherId})
+        const notification = req.session.courseNotification || null
+        delete req.session.courseNotification
+
+        res.render("courses/index", {courses, teachers, search, semester, teacherId, notification})
     }
 
     catch (error) {
@@ -90,13 +93,14 @@ export async function store (req,res, next) {
             teacherId
         })
 
-        const io = req.app.get("io")
-
-        io.emit("courseCreated", {
+        const notification = {
             courseName: course.title,
             teacherName: teacher.name,
             createdAt: new Date().toLocaleString("ru-RU")
-        })
+        }
+
+        req.session.courseNotification = notification
+        req.app.get("io")?.emit("courseCreated", notification)
 
         logAdminAction(req.session.email, "ADD COURSE", "Course", course.id);
         res.redirect("/courses")
